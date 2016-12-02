@@ -22,9 +22,9 @@ In above command
  - stable/newton ---> devstack branch to be cloned.
 
 ### Setup steps
-  -- Update the inventory/local file with the target host ip address
-  -- Update the roles/common/templates/localrc.sample for your spcecific configuration of devstack
- -- choose the devstack build and specifcy on the command (above as  ``` "stable/newton" ``` )
- -- Run the ansible command spcificying non-root user (above as ``` stack ``` )
- -- Wait for playbook to finish, ``` devstack```  folder would be present on ``` stack ``` user home directory
--- run stack.sh to continue with devstack
+ - Update the inventory/local file with the target host ip address
+ - Update the roles/common/templates/localrc.sample for your spcecific configuration of devstack
+ - choose the devstack build and specifcy on the command (above as  ``` "stable/newton" ``` )
+ - Run the ansible command spcificying non-root user (above as ``` stack ``` )
+ - Wait for playbook to finish, ``` devstack```  folder would be present on ``` stack ``` user home directory
+ - run stack.sh to continue with devstack
