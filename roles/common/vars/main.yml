@@ -1,0 +1,7 @@
+devstack_repo: https://git.openstack.org/openstack-dev/devstack
+branch: master
+offline: no
+reclone: no
+#git_base: git://github.com
+#image_url: http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-uec.tar.gz
+devstack_branch: "{{branch}}"

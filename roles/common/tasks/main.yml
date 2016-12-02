@@ -1,0 +1,43 @@
+---
+- name: "Installing required packages"
+  apt: name={{item}} state=installed update_cache=yes
+  with_items:
+       - sudo
+       - mc
+       - git
+  sudo: yes
+
+- name: checking the sudoers file
+  #lineinfile: dest=/etc/sudoers state=present regexp='^%stack' line='%stack ALL=(ALL) ALL'
+  shell: grep "{{ansible_user_id}} ALL" /etc/sudoers
+  register: checksudoers
+  sudo: yes
+  ignore_errors: yes
+
+- name: Copy sudoers file for safety
+  command: cp -f /etc/sudoers /etc/sudoers.{{ lookup('pipe', 'date +%Y%m%d__%H%M%S') }}.ansible_backup_orig
+  sudo: yes
+  when: checksudoers.stdout == ""
+
+- name: Setting the sudoers file
+  shell: 'echo "{{ansible_user_id}} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers'
+  sudo: yes
+  when: checksudoers.stdout == ""
+
+- name: Find out playbook's path
+  shell: pwd
+  register: playbook_path_output
+  #debug: var=playbook_path_output.stdout
+
+
+- name: "Cloning devstack repo"
+  sudo: no
+  git: repo={{devstack_repo}} dest={{ playbook_path_output.stdout }}/devstack version={{devstack_branch}} accept_hostkey=yes force=yes
+
+- name: "Backup the remote file before making any changes"
+  command: cp -f {{ playbook_path_output.stdout }}/devstack/samples/local.conf {{ playbook_path_output.stdout }}/devstack/samples/local.conf.{{ lookup('pipe', 'date +%Y%m%d__%H%M%S') }}.ansible_backup_orig
+  sudo: no
+
+- name: copy localrc file to remote
+  sudo: no
+  template: src=localrc.sample dest={{ playbook_path_output.stdout }}/devstack/samples/local.conf

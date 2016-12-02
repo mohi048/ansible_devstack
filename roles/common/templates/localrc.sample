@@ -1,0 +1,44 @@
+[[local|localrc]]
+ 
+SERVICE_TOKEN=devstack123
+ADMIN_PASSWORD=devstack123
+DATABASE_PASSWORD=devstack123
+MYSQL_PASSWORD=devstack123
+RABBIT_PASSWORD=devstack123
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+ 
+# Enable Logging
+LOGFILE=/opt/stack/logs/stack.sh.log
+VERBOSE=True
+LOG_COLOR=True
+SCREEN_LOGDIR=/opt/stack/logs
+ 
+LIBS_FROM_GIT=python-cinderclient,python-glanceclient,python-keystoneclient,python-neutronclient,python-novaclient,python-swiftclient,python-openstackclient,django_openstack_auth
+#OFFLINE=True
+RECLONE=False
+ 
+disable_service n-net
+enable_service q-svc q-agt q-dhcp q-l3 q-meta
+enable_service heat h-api h-api-cfn h-api-cw h-eng
+
+HOST_IP=10.0.2.15
+SERVICE_HOST=10.0.2.15
+MYSQL_HOST=10.0.2.15
+RABBIT_HOST=10.0.2.15
+#GLANCE_HOSTPORT=172.18.161.6:9292
+
+## Neutron options
+Q_USE_SECGROUP=True
+FLOATING_RANGE="10.0.2.0/24"
+IPV4_ADDRS_SAFE_TO_USE="10.0.0.0/22"
+Q_FLOATING_ALLOCATION_POOL=start=10.0.2.250,end=10.0.2.254
+PUBLIC_NETWORK_GATEWAY="10.0.2.2"
+PUBLIC_INTERFACE=eth0
+
+# Open vSwitch provider networking configuration
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex
+
+

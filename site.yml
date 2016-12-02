@@ -1,0 +1,5 @@
+---
+  - hosts: 01-local-virtual-box
+    user: stack
+    roles:
+         - common
